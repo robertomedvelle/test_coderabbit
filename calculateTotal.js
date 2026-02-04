@@ -3,3 +3,8 @@ const calculateTotal = (items) => {
   
   
   }
+
+  const getUserInformation = ()=>{
+    
+    return ['a,b,c'].join(',');
+  }
