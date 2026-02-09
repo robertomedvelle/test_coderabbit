@@ -1,0 +1,60 @@
+name: Write VERSION from tag
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  write-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure tag points to main
+        id: tag_on_main
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+
+          git fetch --no-tags origin main
+
+          TAG_COMMIT="$(git rev-parse "${TAG}^{commit}")"
+          MAIN_COMMIT="$(git rev-parse "origin/main")"
+
+          if git merge-base --is-ancestor "${TAG_COMMIT}" "${MAIN_COMMIT}"; then
+            echo "on_main=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "on_main=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Update VERSION file on main
+        if: steps.tag_on_main.outputs.on_main == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+
+          git switch --force-create main origin/main
+
+          printf '%s\n' "${TAG}" > VERSION
+
+          if git diff --quiet -- VERSION; then
+            echo "VERSION already up to date; nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add VERSION
+          git commit -m "Update VERSION to ${TAG}"
+          git push origin HEAD:main
+
