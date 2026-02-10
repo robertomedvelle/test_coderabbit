@@ -5,7 +5,7 @@ on:
   issue_comment:
 jobs:
   pr_agent_job:
-    runs-on: ubuntu-latest
+    r uns-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
@@ -20,5 +20,3 @@ jobs:
         github_action_config.auto_review: "true"
         github_action_config.auto_describe: "true"
         github_action_config.auto_improve: "true"
-        pr_code_suggestions.num_code_suggestions: "8"
-        pr_code_suggestions.suggestions_score_threshold: "7"
