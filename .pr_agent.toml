@@ -1,3 +1,5 @@
+[pr_description]
+generate_ai_title=true
 
 [pr_reviewer]
 extra_instructions = "Focus on security issues and code quality."
@@ -5,3 +7,15 @@ extra_instructions = "Focus on security issues and code quality."
 [pr_code_suggestions]
 num_code_suggestions = 6
 suggestions_score_threshold = 7
+
+[github_action_config]
+auto_review=true
+auto_describe=true
+auto_improve=true
+
+[github_app]
+pr_commands = [
+    "/describe",
+    "/review",
+    "/improve",
+]
