@@ -13,7 +13,7 @@ jobs:
     name: Run pr agent on every pull request, respond to user comments
     steps:
     - name: PR Agent action step
-      uses: qodo-ai/pr-agent@main
+      uses: qodo-ai/pr-agent@v0.31
       env:
         OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
