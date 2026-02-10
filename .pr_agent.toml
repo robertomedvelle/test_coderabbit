@@ -19,3 +19,6 @@ pr_commands = [
     "/review",
     "/improve",
 ]
+
+[openai]
+api_base = "https://api.runpod.ai/v2/hej1nefs2r1ff9/openai/v1"
